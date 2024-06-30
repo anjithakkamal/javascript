@@ -1,7 +1,5 @@
 const APIKEY="7062a576d6df45d6a562ba58e5a8a639"
-
-
-const news={
+/*const news={
     "status": "ok",
     "totalResults": 38,
     "articles": [
@@ -267,29 +265,25 @@ const news={
       }
     ]
   }
-
+    */
 let url=`https://newsapi.org/v2/top-headlines?country=in&apiKey=${APIKEY}`
-
+//fetch(url).then(res=>res.json()).then(data=>displayNews(data))
 getData()
-
 async function getData(){
 
-    let resp=await fetch(url)
-
-    let data=await resp.json()
-
-    displayNews(data)
+  let res=await fetch(url)
+  let data=res.json()
+  displayNews(data)
 }
-displayNews(news)
+
+  
 
 const categories=["business","entertainment","general","health","science","sports","technology"]
 
-  function displayNews(news) {
-      
+function displayNews(news){
+    
     let htmlData=``
-
-    for(let n of news.articles){
-
+    for ( n of news.articles){
         htmlData+=`
         <div class="col">
     <div class="card">
@@ -299,28 +293,26 @@ const categories=["business","entertainment","general","health","science","sport
         <p class="card-text">${n.description}</p>
       </div>
     </div>
-  </div>`
+  </div>
+        `
     }
     document.querySelector("#root").innerHTML=htmlData
-  }
-displaycategories(categories)
-  function displaycategories(categories){
-      let htmlData=``
+}  
+displayCategories(categories)
+function displayCategories(categories){
+    let htmlCategory=``
+    for (c of categories){
+        htmlCategory+=`
+        <button type="button" class="btn btn-primary" onclick="fetchNewsByCategory(event)" value="${c}">${c}</button>
 
-      for(let c of categories){
 
-        htmlData+=`
-        <button class="btn btn-outline-success mb-3" onclick="fetchNewsByCategory(event)">${c}</button>
-        
         `
-      }
-      document.querySelector("#category").innerHTML=htmlData
+    }
+    document.querySelector("#category").innerHTML=htmlCategory
+}
 
-  }
+function fetchNewsByCategory(event){
 
-  function fetchNewsByCategory(event){
-
-    let categoryName=event.target.value
-
-    fetch(`${url} &category=${categoryName}`).then(res=>res.json()).then(data=>displayNews(data))
-  }
+  let categoryName=event.target.value
+  fetch(`${url}&category=${categoryName}`).then(res=>res.json()).then(data=>displayNews(data))
+}
