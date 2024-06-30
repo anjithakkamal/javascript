@@ -268,8 +268,10 @@ const news={
     ]
   }
 
-  let url=`https://newsapi.org/v2/top-headlines?country=in&apiKey=${APIKEY}`
+let url=`https://newsapi.org/v2/top-headlines?country=in&apiKey=${APIKEY}`
+
 getData()
+
 async function getData(){
 
     let resp=await fetch(url)
@@ -308,7 +310,7 @@ displaycategories(categories)
       for(let c of categories){
 
         htmlData+=`
-        <button class="btn btn-outline-success mb-3">${c}</button>
+        <button class="btn btn-outline-success mb-3" onclick="fetchNewsByCategory(event)">${c}</button>
         
         `
       }
